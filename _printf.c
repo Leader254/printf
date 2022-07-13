@@ -1,45 +1,49 @@
 #include "main.h"
+
 /**
- * _printf - funtion.
- * @format: lists the arguments passed
- * Return: Always 0.
+ * _printf - a replica of printf. Prints out a formatted string to the stdout
+ * @format: the string to be formatted
+ * Return: the length of the formatted string
  */
 int _printf(const char *format, ...)
 {
-	va_list, valist;
-	unsigned int i = 0, j = 0;
+	int len, i = 0;
+	char *str;
+	va_list list;
 
-	va_start(valist, format);
+	va_start(list, format);
+	len = strlen(format);
+	str = malloc(sizeof(format) * len);
 
-	if (!format || (format[0] == '%' && format[1] == '\0'))
-		return (-1)
-			for (i = 0; format != NULL && format[i] != '\0'; i++)
+	while (i < len)
+	{
+		str[i] = format[i];
+		i++;
+	}
+	for (i = 0; i < len; i++)
+	{
+		if (str[i] == '%' && str[i] != '\0')
+		{
+			i++;
+			if (str[i] == 'c')
 			{
-				if (formatted[i] == '%')
-				{
-					if (format[i + 1] == '%')
-					{
-						_putchar('%');
-						j++;
-						i++;
-					}
-					else if (typefor(format, i + 1) != NULL)
-					{
-						j += _typefor(format, i + 1)(valist);
-						i++
-					}
-					else
-					{
-						_putcher(fomart[i]);
-						j++
-					}
-				}
-				else
-				{
-					_putchar(format[i]);
-					j++;
-				}
+				_putchar(va_arg(list, int));
 			}
-	va_end(valist);
-	return (j);
+			else if (str[i] == 'd' || str[i] == 'i')
+			{
+				print_number(va_arg(list, int));
+			}
+			else if (str[i] == 's')
+			{
+				print_string(va_arg(list, char*));
+			}
+			else if (str[i] == '%')
+				_putchar('%');
+		}
+		else
+			_putchar(str[i]);
+	}
+	str[len] = '\0';
+	va_end(list);
+	return (i);
 }
